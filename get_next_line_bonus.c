@@ -1,5 +1,5 @@
 
-#include	"get_next_line.h"
+#include	"get_next_line_bonus.h"
 
 /*
 #include	<fcntl.h>
@@ -7,20 +7,14 @@
 
 int	main(void)
 {
-	//int	a;
+	int	a;
 	char	*s;
 
-//	a = open("tst.txt", O_RDONLY);
-	while (1)
-	{
-		s = get_next_line(1);
-		printf("result @%s@\n", s);
-		if (s == NULL)
-			break;
-	}
-
-//	s = get_next_line(0);
-//	printf("result @%s@\n", s);
+	a = open("tst.txt", O_RDONLY);
+	s = get_next_line(a);
+	printf("result @%s@\n", s);
+	//s = get_next_line(a);
+	//printf("result @%s@\n", s);
 	return (0);
 }
 */
@@ -35,16 +29,17 @@ char	*get_next_line(int fd)
 	a = 1;
 	str = NULL;
 	now = NULL;
-	if (fd >= 0)
+	if (fd > 0)
 	{
 		now = gnl_get_fdlist(fd);
-		while (now && a > 0)
+	//	printf("%s\n", now->buff);
+		while (now && a > 0) //(now && (now->buff == now->buff_cur || (now->buff_cur != NULL && now->buff_cur[- 1] != '\n'))) //buff[0] ==  buff_cur[0] 일때 어떻게 주의하지? 
 			a = gnl_read_fd(fd, now, &str);
 	}
 	return (str);
 }
 
-
+///////////////////////////////
 int	gnl_read_fd(int fd, t_gnl_list	*now, char **str)
 {
 	int		i;
@@ -162,8 +157,9 @@ t_gnl_list	*gnl_get_fdlist(int fd)
 	t_gnl_list	*tmp;
 
 	rtn = NULL;
+	fd++;
 	rtn = gnl_find_fdlist(fd);
-	if (rtn == NULL)
+	if (rtn == NULL) //여기서 만든 gnl_list leak 발생;
 	{
 		rtn = (t_gnl_list *)malloc(sizeof(t_gnl_list)); // 배열이 아니니까 + 1 안해도 괜찮것지 대신 memset 으로 
 		if (rtn)

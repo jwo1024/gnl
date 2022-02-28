@@ -1,10 +1,10 @@
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#ifndef GET_NEXT_LINE_BONUS_H
+# define GET_NEXT_LINE_BONUS_H
 
 # include	<unistd.h>
 # include	<stdlib.h>
 
-//# define	BUFFER_SIZE 5 // 삭제해야함
+//# define	BUFFER_SIZE 2 // 삭제해야함
 
 typedef struct s_gnl_list
 {
