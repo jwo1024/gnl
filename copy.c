@@ -2,6 +2,30 @@
 #include	<stdlib.h>
 #include	<stdio.h>
 
+/*
+#include	<fcntl.h>
+#include	<stdio.h>
+
+int	main(void)
+{
+	//int	a;
+	char	*s;
+
+//	a = open("tst.txt", O_RDONLY);
+	while (1)
+	{
+		s = get_next_line(1);
+		printf("result @%s@\n", s);
+		if (s == NULL)
+			break;
+	}
+
+//	s = get_next_line(0);
+//	printf("result @%s@\n", s);
+	return (0);
+}
+*/
+
 #define	BUFFER_SIZE 42
 // EOF값은 stdio.h 에 define 되어 있음, 이걸 써도 되는 건가??
 // EOF 입력은 CTRL + D
