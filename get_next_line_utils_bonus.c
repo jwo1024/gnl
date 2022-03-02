@@ -1,39 +1,39 @@
 #include	"get_next_line_bonus.h"
 
-t_gnl_list	*gnl_get_fdlist(int fd, t_gnl_list *gnl_head)
+t_gnl_list	*gnl_get_fdlist(int fd, t_gnl_list *head)
 {
-	t_gnl_list	*rtn;
+	t_gnl_list	*list;
 
-	rtn = NULL;
-	rtn = gnl_find_fdlist(fd, gnl_head);
-	if (rtn != NULL)
-		return (rtn);
-	rtn = (t_gnl_list *)malloc(sizeof(t_gnl_list));
-	if (rtn)
+	list = NULL;
+	list = gnl_find_fdlist(fd, head);
+	if (list != NULL)
+		return (list);
+	list = (t_gnl_list *)malloc(sizeof(t_gnl_list));
+	if (list)
 	{
-		rtn = gnl_memset(rtn, 0, sizeof(t_gnl_list));
-		rtn->gnl_fd = fd;
-		rtn->buff = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
-		if (rtn->buff != NULL)
+		list = gnl_memset(list, 0, sizeof(t_gnl_list));
+		list->gnl_fd = fd;
+		list->buff = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
+		if (list->buff != NULL)
 		{
-			while (gnl_head->next != NULL)
-				gnl_head = gnl_head->next;
-			gnl_head->next = rtn;
+			while (head->next != NULL)
+				head = head->next;
+			head->next = list;
 		}
 		else
 		{
-			free(rtn);
+			free(list);
 			return (NULL);
 		}
 	}
-	return (rtn);
+	return (list);
 }
 
-t_gnl_list	*gnl_find_fdlist(int fd, t_gnl_list *gnl_head)
+t_gnl_list	*gnl_find_fdlist(int fd, t_gnl_list *head)
 {
 	t_gnl_list	*tmp;
 
-	tmp = gnl_head;
+	tmp = head;
 	while (tmp->next != NULL)
 	{
 		tmp = tmp->next;
@@ -43,18 +43,18 @@ t_gnl_list	*gnl_find_fdlist(int fd, t_gnl_list *gnl_head)
 	return (NULL);
 }
 
-int	gnl_free_list(t_gnl_list *now, t_gnl_list *gnl_head)
+int	gnl_free_list(t_gnl_list *list, t_gnl_list *head)
 {
 	t_gnl_list	*tmp;
 
-	tmp = gnl_head;
+	tmp = head;
 	while (tmp->next != NULL)
 	{
-		if (tmp->next->gnl_fd == now->gnl_fd)
+		if (tmp->next->gnl_fd == list->gnl_fd)
 		{
-			free(now->buff);
-			tmp->next = now->next;
-			free(now);
+			free(list->buff);
+			tmp->next = list->next;
+			free(list);
 			return (1);
 		}
 		tmp = tmp->next;
