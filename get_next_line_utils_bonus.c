@@ -14,17 +14,15 @@ t_gnl_list	*gnl_get_fdlist(int fd, t_gnl_list *head)
 		list = gnl_memset(list, 0, sizeof(t_gnl_list));
 		list->gnl_fd = fd;
 		list->buff = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
-		if (list->buff != NULL)
-		{
-			while (head->next != NULL)
-				head = head->next;
-			head->next = list;
-		}
-		else
+		if (list->buff == NULL)
 		{
 			free(list);
 			return (NULL);
-		}
+		}	
+		gnl_memset(list->buff, 0, BUFFER_SIZE + 1);
+		while (head->next != NULL)
+			head = head->next;
+		head->next = list;
 	}
 	return (list);
 }
